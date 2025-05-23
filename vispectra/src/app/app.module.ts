@@ -12,6 +12,9 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DashboardHomeComponent } from './pages/dashboard-home/dashboard-home.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
+import { CheckComponent } from './pages/check/check.component';
+import { CheckHistoryComponent } from './pages/check-history/check-history.component';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { NavbarComponent } from './pages/navbar/navbar.component';
     EditSymbolComponent,
     EditUserComponent,
     DashboardHomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    CheckComponent,
+    CheckHistoryComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,12 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <div class="navbar-left">
+    <a routerLink="/home" class="brand">Vispectra</a>
+    <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">หน้าแรก</a>
+    <a routerLink="/check" routerLinkActive="active">ตรวจเช็ค</a>
+    <a routerLink="/check-history" routerLinkActive="active">ประวัติการตรวจ</a>
+  </div>
+
+  <div class="navbar-right">
+    <a (click)="logout()">ออกจากระบบ</a>
+  </div>
+</nav>

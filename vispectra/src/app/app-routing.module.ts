@@ -7,11 +7,15 @@ import { EditSymbolComponent } from './pages/edit-symbol/edit-symbol.component';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DashboardHomeComponent } from './pages/dashboard-home/dashboard-home.component'; // <<<< เพิ่มตรงนี้
+import { CheckComponent } from './pages/check/check.component';
+import { CheckHistoryComponent } from './pages/check-history/check-history.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'check', component: CheckComponent },
+  { path: 'check-history', component: CheckHistoryComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
