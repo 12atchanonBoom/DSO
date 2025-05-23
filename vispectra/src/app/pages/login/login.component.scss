@@ -1,0 +1,214 @@
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0d47a1, #1976d2, #42a5f5);
+  padding: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+  // ❌ เอาขอบ gradient ด้านบนออก
+  // border-top: 4px solid transparent;
+  // border-image: linear-gradient(to right, #ff512f, #f09819);
+  // border-image-slice: 1;
+}
+
+.flame-header {
+  font-size: 1.6rem;
+  text-align: center;
+  font-weight: bold;
+  color: #f44336;
+  margin-bottom: 1.2rem;
+  text-shadow: 0 1px 3px rgba(255, 87, 34, 0.5);
+}
+
+.form-control {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: #fafafa;
+  font-size: 0.95rem;
+  color: #333;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: #ff9800;
+    box-shadow: 0 0 6px #ffc107;
+  }
+}
+
+.btn-login {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.65rem;
+  background: linear-gradient(to right, #2196f3, #00bcd4);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+  }
+}
+
+.text-danger {
+  font-size: 0.875rem;
+  color: #e53935;
+  margin-bottom: 0.5rem;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+
+  img {
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+.form-input-icon {
+  position: relative;
+  margin-bottom: 1rem;
+  width: 100%;
+
+  input {
+    width: 100%;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    box-sizing: border-box;
+  }
+
+  i.fa {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  i.fa-user,
+  i.fa-lock {
+    left: 10px;
+  }
+
+  &.password-icon i.fa-eye,
+  &.password-icon i.fa-eye-slash {
+    right: 10px;
+    left: auto;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+}
+
+.form-floating {
+  position: relative;
+  margin-bottom: 1.25rem;
+
+  label {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    background: white;
+    padding: 0 4px;
+    color: #999;
+    transition: 0.2s;
+    pointer-events: none;
+  }
+
+  input:focus + label,
+  input:not(:placeholder-shown) + label {
+    top: -8px;
+    left: 8px;
+    font-size: 0.75rem;
+    color: #3f51b5;
+  }
+
+  input {
+    padding-top: 1.25rem;
+    padding-bottom: 0.4rem;
+  }
+
+  &.password-icon i.fa-eye,
+  &.password-icon i.fa-eye-slash {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+  }
+}
+
+.form-floating-icon {
+  position: relative;
+  margin-bottom: 1.25rem;
+
+  input {
+    width: 100%;
+    padding: 1.25rem 2.2rem 0.4rem 2.8rem; // ชิดขวา + ชิดซ้ายจาก icon
+    box-sizing: border-box;
+  }
+
+  label {
+    position: absolute;
+    left: 2.8rem; // 👈 พ้น icon
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    padding: 0 4px;
+    color: #999;
+    transition: 0.2s;
+    pointer-events: none;
+  }
+
+  input:focus + label,
+  input:not(:placeholder-shown) + label {
+    top: -8px;
+    font-size: 0.75rem;
+    color: #3f51b5;
+  }
+
+  i.fa {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    z-index: 2;
+    font-size: 1rem;
+  }
+
+  i.fa-user,
+  i.fa-lock {
+    left: 10px;
+    pointer-events: none;
+  }
+
+  &.password-icon .toggle-eye {
+    right: 10px;
+    left: auto;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+}
+
