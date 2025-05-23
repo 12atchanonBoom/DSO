@@ -1,1 +1,63 @@
-<p>edit-symbol works!</p>
+<div class="card">
+  <div class="card-header">
+    <h2>🧩 จัดการสัญลักษณ์</h2>
+    <button class="btn-add" (click)="openAddModal()">+ เพิ่มสัญลักษณ์</button>
+  </div>
+  <input type="text" placeholder="ค้นหาชื่อภาพ..." [(ngModel)]="searchText" />
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>สัญลักษณ์</th>
+        <th>ชื่อภาพ</th>
+        <th>หมวดหมู่</th>
+        <th>การจัดการ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let symbol of filteredSymbols; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <img [src]="symbol.imageUrl" alt="{{symbol.imageName}}" width="32" height="32" />
+        </td>
+        <td>{{ symbol.imageName }}</td>
+        <td>{{ symbol.category }}</td>
+        <td>
+          <button (click)="openEditModal(symbol)">✏️</button>
+          <button (click)="deleteSymbol(symbol.id)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal Overlay กลางจอ -->
+<div *ngIf="modalOpen" class="modal-overlay">
+  <div class="modal">
+    <form (ngSubmit)="onSubmitSymbol()">
+      <h3>{{ isEditMode ? 'แก้ไขสัญลักษณ์' : 'เพิ่มสัญลักษณ์' }}</h3>
+      <div class="form-row">
+        <label>อัปโหลดรูปภาพ:
+          <input type="file" (change)="onFileChange($event)" accept="image/png, image/jpeg" />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>ชื่อภาพ:
+          <input type="text" [(ngModel)]="form.imageName" name="imageName" required />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>หมวดหมู่:
+          <select [(ngModel)]="form.category" name="category" required>
+            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-confirm">{{ isEditMode ? 'บันทึกการแก้ไข' : 'เพิ่มสัญลักษณ์' }}</button>
+        <button type="button" class="btn-cancel" (click)="closeModal()">ยกเลิก</button>
+      </div>
+    </form>
+  </div>
+</div>

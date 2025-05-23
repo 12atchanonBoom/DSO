@@ -1,1 +1,54 @@
-<p>edit-text works!</p>
+<div class="edit-text-wrapper">
+  <div class="edit-text-header">
+    <h2>📝 จัดการข้อความตรวจจับ</h2>
+    <div class="header-controls">
+      <input
+        type="text"
+        placeholder="🔍 ค้นหาข้อความ..."
+        [(ngModel)]="searchKeyword"
+        class="search-box"
+      />
+      <button class="btn-add" (click)="openAddModal()">+ เพิ่มข้อความ</button>
+    </div>
+  </div>
+
+  <div class="edit-text-table">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>ข้อความ</th>
+          <th>การจัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let text of filteredTexts; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ text.content }}</td>
+          <td>
+            <button class="btn-edit" (click)="openEditModal(text)">✏️</button>
+            <button class="btn-delete" (click)="deleteText(text)">🗑</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal สำหรับเพิ่ม/แก้ไขข้อความ -->
+<div *ngIf="modalOpen" class="modal-overlay">
+  <div class="modal">
+    <h3>{{ editMode ? 'แก้ไขข้อความ' : 'เพิ่มข้อความใหม่' }}</h3>
+    <form (ngSubmit)="onSubmitModal()">
+      <div class="form-row">
+        <label>ข้อความ:
+          <input type="text" [(ngModel)]="modalText" name="modalText" required autofocus />
+        </label>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-confirm">บันทึก</button>
+        <button type="button" class="btn-cancel" (click)="closeModal()">ยกเลิก</button>
+      </div>
+    </form>
+  </div>
+</div>

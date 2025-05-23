@@ -10,6 +10,7 @@ export class SidebarComponent {
   constructor(private router: Router) {}
 
   logout() {
+    // เพิ่ม logic logout เช่น clear token ถ้ามี
     this.router.navigate(['/']);
   }
 }

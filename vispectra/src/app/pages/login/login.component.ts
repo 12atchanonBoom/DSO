@@ -26,7 +26,7 @@ export class LoginComponent {
 
     // จำลอง delay เหมือนโหลดข้อมูลจริง
     setTimeout(() => {
-      if (this.username === 'admin' && this.password === 'admin123') {
+      if (this.username === 'a' && this.password === '1') {
         Swal.fire({
           title: 'Welcome, Admin!',
           text: 'You have successfully logged in.',
@@ -36,7 +36,7 @@ export class LoginComponent {
           showConfirmButton: false
         });
         this.router.navigate(['/dashboard']);
-      } else if (this.username === 'user' && this.password === 'user123') {
+      } else if (this.username === 'u' && this.password === '1') {
         Swal.fire({
           title: 'Welcome!',
           text: 'User login success!',
