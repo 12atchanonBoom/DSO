@@ -1,32 +1,101 @@
 .dashboard-container {
   display: flex;
   min-height: 100vh;
+  background: #f6f7fa;
 }
 
 .sidebar {
   width: 220px;
-  background-color: #2c3e50;
-  padding: 20px;
+  background: rgba(32, 37, 50, 0.97); // เทาเข้มเกือบดำ
+  color: #fff;
+  padding: 32px 14px 28px 14px;
+  box-shadow: 6px 0 20px 0 #0001;
+  display: flex;
+  flex-direction: column;
+  border-top-right-radius: 2.1rem;
+  border-bottom-right-radius: 2.1rem;
+  position: relative;
+  min-height: 100vh;
+  z-index: 10;
+  overflow-x: hidden;
 
   nav ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 
     li {
-      margin-bottom: 15px;
+      margin-bottom: 7px;
+      transition: transform 0.1s;
 
       a {
-        color: #ecf0f1;
+        color: #e5eaf5;
         text-decoration: none;
-        font-weight: 600;
-        display: block;
-        padding: 10px 15px;
-        border-radius: 5px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.82rem;
+        padding: 12px 18px 12px 13px;
+        border-radius: 12px;
+        font-size: 1.03rem;
+        letter-spacing: 0.01em;
+        transition: background 0.18s, color 0.16s, box-shadow 0.15s;
+        position: relative;
+
+        i {
+          font-size: 1.13em;
+          min-width: 22px;
+          text-align: center;
+          color: #a5b4cf; // ไอคอนสีเทาอ่อนดูแพง
+          transition: color 0.17s;
+        }
+        span {
+          transition: color 0.15s;
+        }
 
         &.active,
         &:hover {
-          background-color: #34495e;
+          background: rgba(244,247,251, 0.06);
+          color: #47a7f5;
+          box-shadow: 0 3px 18px #47a7f51a;
         }
+        &.active {
+          font-weight: 600;
+        }
+        &.active::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 9px;
+          bottom: 9px;
+          width: 4px;
+          border-radius: 5px;
+          background: linear-gradient(180deg, #47a7f5 0%, #b6d7ff 100%);
+          opacity: 1;
+        }
+        &:hover i,
+        &.active i {
+          color: #47a7f5;
+        }
+        &:hover span,
+        &.active span {
+          color: #47a7f5;
+        }
+      }
+    }
+
+    .logout-li a {
+      background: transparent;
+      color: #ec7575;
+      font-weight: 600;
+      margin-top: 2.1rem;
+      border-radius: 10px;
+      transition: background 0.18s, color 0.12s;
+      i { color: #ec7575; }
+      &:hover {
+        background: rgba(236,117,117,0.09);
+        color: #fff;
+        i { color: #fff; }
       }
     }
   }
@@ -34,62 +103,51 @@
 
 .content {
   flex-grow: 1;
-  padding: 30px;
-  background-color: #f5f6fa;
+  padding: 38px 38px 32px 38px;
+  background-color: #f6f7fa;
+  min-height: 100vh;
 }
 
-// ========== Dashboard Overview เพิ่มตรงนี้ ==========
-
-.dashboard-overview {
-  text-align: center;
-  margin-bottom: 2.5rem;
-
-  h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #263445;
-    margin: 0 0 0.4rem;
-    .brand { color: #248efc; }
+// Responsive Sidebar
+@media (max-width: 900px) {
+  .sidebar {
+    width: 60px;
+    padding: 18px 6px 18px 6px;
+    border-radius: 0 1.1rem 1.1rem 0;
+    nav ul li a {
+      padding: 12px 4px 12px 4px;
+      font-size: 0;
+      gap: 0;
+      justify-content: center;
+      i { font-size: 1.25em; }
+      span { display: none; }
+    }
+    nav ul li a.active,
+    nav ul li a:hover {
+      background: rgba(71,167,245,0.12);
+      box-shadow: 0 2px 10px #47a7f522;
+    }
+    nav ul .logout-li a { margin-top: 0; }
   }
+  .content { padding: 18px 2vw 10px 2vw; }
+}
 
-  .subtitle {
-    color: #6e7281;
-    font-size: 1.08rem;
-    margin-bottom: 2rem;
+@media (max-width: 600px) {
+  .dashboard-container { flex-direction: column; }
+  .sidebar {
+    width: 100vw;
+    min-height: auto;
+    flex-direction: row;
+    padding: 0;
+    border-radius: 0 0 1rem 1rem;
+    nav ul {
+      display: flex;
+      flex-direction: row;
+      width: 100vw;
+      justify-content: space-around;
+      li { margin-bottom: 0; }
+      .logout-li a { margin-top: 0; }
+    }
   }
-}
-
-.overview-cards {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.7rem;
-}
-.ov-card {
-  background: #fff;
-  border-radius: 1.2rem;
-  box-shadow: 0 4px 18px #0002;
-  padding: 1.3rem 2.1rem;
-  min-width: 140px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.ov-card-icon {
-  font-size: 2rem;
-  background: #f5f6fa;
-  border-radius: 1rem;
-  padding: 0.5rem 0.8rem;
-}
-.ov-card-title {
-  color: #263445;
-  font-size: 1rem;
-  font-weight: 500;
-}
-.ov-card-value {
-  color: #248efc;
-  font-size: 1.35rem;
-  font-weight: 700;
-  margin-top: 0.2rem;
+  .content { padding: 10px 2vw 7px 2vw; }
 }

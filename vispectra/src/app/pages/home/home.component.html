@@ -1,22 +1,35 @@
 <app-navbar></app-navbar>
 
 <div class="user-home-container">
-  <!-- Card Section -->
-   <h5>ยินดีต้อนรับสู่ Vispectra</h5>
-          <p>ระบบตรวจการ์ดหลัง Toys ที่ทันสมัย</p>
+  <h5>
+    <span class="hw-flame"><i class="fa fa-fire"></i></span>
+    ยินดีต้อนรับสู่ Vispectra
+  </h5>
+  <p class="subtitle">ระบบตรวจการ์ดหลัง Toys ที่ทันสมัย</p>
   <div class="cards-container">
     <div class="card">
-      <img src="assets/images/CheckCheck.png" alt="ตรวจเช็ค" />
-      <h3>ตรวจเช็ค</h3>
+      <div class="card-img-effect">
+        <img src="assets/images/CheckCheck.png" alt="ตรวจเช็ค" />
+      </div>
+      <h3>
+        <i class="fa fa-search"></i> ตรวจเช็ค
+      </h3>
       <p>เริ่มตรวจเช็คข้อมูลของคุณอย่างรวดเร็ว</p>
-      <button routerLink="/check" class="btn-primary">เริ่มตรวจเช็ค</button>
+      <button routerLink="/check" class="btn-primary">
+        <i class="fa fa-rocket"></i> เริ่มตรวจเช็ค
+      </button>
     </div>
-
     <div class="card">
-      <img src="assets/images/TimeHis.png" alt="ประวัติการตรวจ" />
-      <h3>ประวัติการตรวจ</h3>
+      <div class="card-img-effect">
+        <img src="assets/images/TimeHis.png" alt="ประวัติการตรวจ" />
+      </div>
+      <h3>
+        <i class="fa fa-history"></i> ประวัติการตรวจ
+      </h3>
       <p>ดูประวัติและผลการตรวจของคุณย้อนหลัง</p>
-      <button routerLink="/check-history" class="btn-primary">ดูประวัติ</button>
+      <button routerLink="/check-history" class="btn-primary">
+        <i class="fa fa-list"></i> ดูประวัติ
+      </button>
     </div>
   </div>
 </div>

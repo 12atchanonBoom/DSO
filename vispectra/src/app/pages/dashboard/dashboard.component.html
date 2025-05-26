@@ -4,13 +4,34 @@
       <ul>
         <li>
           <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
-            Dashboard Home
+            <i class="fa fa-tachometer-alt"></i>
+            <span>Dashboard Home</span>
           </a>
         </li>
-        <li><a routerLink="edit-text" routerLinkActive="active">Edit Text</a></li>
-        <li><a routerLink="edit-symbol" routerLinkActive="active">Edit Symbol</a></li>
-        <li><a routerLink="edit-user" routerLinkActive="active">Edit User</a></li>
-        <li><a (click)="logout()">Logout</a></li>
+        <li>
+          <a routerLink="edit-text" routerLinkActive="active">
+            <i class="fa fa-font"></i>
+            <span>Edit Text</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="edit-symbol" routerLinkActive="active">
+            <i class="fa fa-shapes"></i>
+            <span>Edit Symbol</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="edit-user" routerLinkActive="active">
+            <i class="fa fa-users-cog"></i>
+            <span>Edit User</span>
+          </a>
+        </li>
+        <li class="logout-li">
+          <a (click)="logout()">
+            <i class="fa fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </a>
+        </li>
       </ul>
     </nav>
   </aside>
