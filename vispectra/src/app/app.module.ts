@@ -14,6 +14,7 @@ import { DashboardHomeComponent } from './pages/dashboard-home/dashboard-home.co
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { CheckComponent } from './pages/check/check.component';
 import { CheckHistoryComponent } from './pages/check-history/check-history.component';
+import { HistoryDetailsComponent } from './pages/history-details/history-details.component';
 
 
 @NgModule({
@@ -30,10 +31,11 @@ import { CheckHistoryComponent } from './pages/check-history/check-history.compo
     NavbarComponent,
     CheckComponent,
     CheckHistoryComponent,
+    HistoryDetailsComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, // ✅ แทน RouterModule
+    AppRoutingModule, // 
     FormsModule
   ],
   providers: [

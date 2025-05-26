@@ -152,3 +152,8 @@ input[type="file"] {
   transition: background 0.14s;
 }
 .btn-cancel:hover { background: #e9eaea; }
+
+th:nth-child(4), td:nth-child(4) {
+  width: 28%;
+  min-width: 100px;
+}

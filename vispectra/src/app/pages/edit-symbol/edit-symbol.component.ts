@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import Swal from 'sweetalert2'; // <-- เพิ่ม import นี้
+import Swal from 'sweetalert2';
 
 interface SymbolItem {
   id: number;
   imageUrl: string;
   imageName: string;
+  description: string; // เพิ่ม description
   category: string;
 }
 
@@ -38,7 +39,7 @@ export class EditSymbolComponent implements OnInit {
   }
 
   openAddModal() {
-    this.form = { imageUrl: '', imageName: '', category: this.categories[0] };
+    this.form = { imageUrl: '', imageName: '', description: '', category: this.categories[0] };
     this.isEditMode = false;
     this.modalOpen = true;
   }
@@ -77,6 +78,7 @@ export class EditSymbolComponent implements OnInit {
         id: Date.now(),
         imageUrl: this.form.imageUrl || '',
         imageName: this.form.imageName || '',
+        description: this.form.description || '',
         category: this.form.category || this.categories[0],
       };
       this.symbols.push(newSymbol);
@@ -84,7 +86,6 @@ export class EditSymbolComponent implements OnInit {
     this.saveSymbols();
     this.closeModal();
 
-    // SweetAlert2 แจ้งเตือนเมื่อเพิ่ม/แก้ไขสำเร็จ
     Swal.fire({
       icon: 'success',
       title: this.isEditMode ? 'บันทึกข้อมูลแล้ว' : 'เพิ่มสัญลักษณ์สำเร็จ',
@@ -121,8 +122,8 @@ export class EditSymbolComponent implements OnInit {
   get filteredSymbols() {
     if (!this.searchText) return this.symbols;
     return this.symbols.filter(s =>
-      s.imageName.toLowerCase().includes(this.searchText.toLowerCase())
+      s.imageName.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      (s.description || '').toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
 }
-

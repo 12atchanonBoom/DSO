@@ -3,7 +3,7 @@
     <h2>🧩 จัดการสัญลักษณ์</h2>
     <button class="btn-add" (click)="openAddModal()">+ เพิ่มสัญลักษณ์</button>
   </div>
-  <input type="text" placeholder="ค้นหาชื่อภาพ..." [(ngModel)]="searchText" />
+  <input type="text" placeholder="ค้นหาชื่อภาพหรือรายละเอียด..." [(ngModel)]="searchText" />
 
   <table>
     <thead>
@@ -11,6 +11,7 @@
         <th>#</th>
         <th>สัญลักษณ์</th>
         <th>ชื่อภาพ</th>
+        <th>รายละเอียด</th>
         <th>หมวดหมู่</th>
         <th>การจัดการ</th>
       </tr>
@@ -22,6 +23,7 @@
           <img [src]="symbol.imageUrl" alt="{{symbol.imageName}}" width="32" height="32" />
         </td>
         <td>{{ symbol.imageName }}</td>
+        <td>{{ symbol.description }}</td>
         <td>{{ symbol.category }}</td>
         <td>
           <button (click)="openEditModal(symbol)">✏️</button>
@@ -45,6 +47,11 @@
       <div class="form-row">
         <label>ชื่อภาพ:
           <input type="text" [(ngModel)]="form.imageName" name="imageName" required />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>รายละเอียด:
+          <input type="text" [(ngModel)]="form.description" name="description" placeholder="รายละเอียดของสัญลักษณ์" />
         </label>
       </div>
       <div class="form-row">

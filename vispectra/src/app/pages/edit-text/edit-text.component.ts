@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 interface TextItem {
   id: number;
   content: string;
+  description: string;
 }
 
 @Component({
@@ -18,6 +19,7 @@ export class EditTextComponent implements OnInit {
   // Modal states
   modalOpen = false;
   modalText = '';
+  modalDescription = '';
   editMode = false;
   editingItem: TextItem | null = null;
 
@@ -25,36 +27,37 @@ export class EditTextComponent implements OnInit {
     if (typeof window !== 'undefined' && window.localStorage) {
       const saved = localStorage.getItem('edit-texts');
       this.texts = saved ? JSON.parse(saved) : [
-        { id: 1, content: 'คำเตือน' },
-        { id: 2, content: 'อันตราย!' },
-        { id: 3, content: 'สำหรับเด็กอายุ 3 ปีขึ้นไป' },
+        { id: 1, content: 'คำเตือน', description: 'ข้อความแจ้งเตือนทั่วไป' },
+        { id: 2, content: 'อันตราย!', description: 'แสดงความอันตรายอย่างชัดเจน' },
+        { id: 3, content: 'สำหรับเด็กอายุ 3 ปีขึ้นไป', description: 'แนะนำอายุที่เหมาะสม' },
       ];
     } else {
       this.texts = [
-        { id: 1, content: 'คำเตือน' },
-        { id: 2, content: 'อันตราย!' },
-        { id: 3, content: 'สำหรับเด็กอายุ 3 ปีขึ้นไป' },
+        { id: 1, content: 'คำเตือน', description: 'ข้อความแจ้งเตือนทั่วไป' },
+        { id: 2, content: 'อันตราย!', description: 'แสดงความอันตรายอย่างชัดเจน' },
+        { id: 3, content: 'สำหรับเด็กอายุ 3 ปีขึ้นไป', description: 'แนะนำอายุที่เหมาะสม' },
       ];
     }
   }
 
   get filteredTexts() {
     return this.texts.filter(t =>
-      t.content.toLowerCase().includes(this.searchKeyword.toLowerCase())
+      t.content.toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
+      t.description.toLowerCase().includes(this.searchKeyword.toLowerCase())
     );
   }
 
-  // เปิด Modal เพิ่มข้อความ
   openAddModal() {
     this.modalText = '';
+    this.modalDescription = '';
     this.editMode = false;
     this.editingItem = null;
     this.modalOpen = true;
   }
 
-  // เปิด Modal แก้ไขข้อความ
   openEditModal(text: TextItem) {
     this.modalText = text.content;
+    this.modalDescription = text.description;
     this.editMode = true;
     this.editingItem = text;
     this.modalOpen = true;
@@ -63,17 +66,18 @@ export class EditTextComponent implements OnInit {
   closeModal() {
     this.modalOpen = false;
     this.modalText = '';
+    this.modalDescription = '';
     this.editingItem = null;
   }
 
-  // กดบันทึกใน modal (เพิ่มหรือแก้ไข)
   onSubmitModal() {
     const trimmed = this.modalText.trim();
+    const trimmedDesc = this.modalDescription.trim();
     if (!trimmed) return;
 
     if (this.editMode && this.editingItem) {
-      // Edit
       this.editingItem.content = trimmed;
+      this.editingItem.description = trimmedDesc;
       this.saveToLocal();
       this.closeModal();
 
@@ -84,10 +88,10 @@ export class EditTextComponent implements OnInit {
         timer: 1000
       });
     } else {
-      // Add
       const newText: TextItem = {
         id: Date.now(),
-        content: trimmed
+        content: trimmed,
+        description: trimmedDesc,
       };
       this.texts.push(newText);
       this.saveToLocal();

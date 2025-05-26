@@ -1,1 +1,33 @@
 <app-navbar></app-navbar>
+
+<div class="history-wrapper">
+  <h2>History: รายการตรวจสอบย้อนหลัง</h2>
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>ไฟล์ที่ตรวจ</th>
+        <th>เวลาตรวจ</th>
+        <th>ผลลัพธ์</th>
+        <th>รายละเอียด</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let his of historyList; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ his.fileName }}</td>
+        <td>{{ his.checkedAt | date:'short' }}</td>
+        <td>
+          <span [ngClass]="{
+              'status-passed': his.status === 'Passed',
+              'status-failed': his.status === 'Failed'
+            }">{{ his.status }}</span>
+        </td>
+        <td>
+          <!-- ใช้ routerLink ไป path ใหม่ -->
+          <button [routerLink]="['/history-details', his.id]">Details</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

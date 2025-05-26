@@ -1,0 +1,37 @@
+<app-navbar></app-navbar>
+<div class="details-page-wrapper">
+  <button class="btn-back" (click)="goBack()">ย้อนกลับ</button>
+  <h3>รายละเอียดการตรวจสอบ</h3>
+  <div *ngIf="data">
+    <div class="details-summary">
+      <b>ไฟล์ที่ตรวจ:</b> {{ data.fileName || '-' }}<br>
+      <b>เวลาตรวจ:</b> {{ data.checkedAt | date:'short' }}<br>
+      <b>ผลลัพธ์:</b>
+      <span [ngClass]="{
+        'status-passed': data.status === 'Passed',
+        'status-failed': data.status === 'Failed'
+      }">{{ data.status }}</span>
+    </div>
+
+    <div class="details-section" *ngIf="data.summary">
+      <b>สรุปผล:</b> {{ data.summary }}
+    </div>
+
+    <div class="details-section" *ngIf="data.resultTable?.length">
+      <table>
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data.resultTable">
+            <td>{{ row.key }}</td>
+            <td>{{ row.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
