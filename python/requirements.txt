@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+PyMuPDF
+easyocr
+torch
+torchvision
+pydantic
+python-multipart
+python-dotenv
