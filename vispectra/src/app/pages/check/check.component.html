@@ -4,10 +4,9 @@
   <!-- Toolbar -->
   <div class="toolbar">
     <div class="left">
-      <input type="file" (change)="onFileChange($event)" id="inputFile" hidden>
+      <input type="file" (change)="onFileChange($event)" id="inputFile" hidden />
       <label class="file-label" for="inputFile">{{ selectedFileName || 'No file selected' }}</label>
       <button (click)="triggerFileInput()">Select File</button>
-      <!-- ปุ่ม Clear File -->
       <button 
         *ngIf="selectedFileName" 
         (click)="clearFile()" 
@@ -44,7 +43,7 @@
   <!-- PDF Preview Box -->
   <div class="result-box">
     <ng-container *ngIf="pdfSrc; else noPdf">
-      <embed [src]="pdfSrc" type="application/pdf" width="100%" height="400px"/>
+      <embed [src]="pdfSrc" type="application/pdf" width="100%" height="400px" />
     </ng-container>
     <ng-template #noPdf>
       <span class="no-pdf-text">Please select a PDF file to preview here.</span>
@@ -52,7 +51,7 @@
   </div>
 
   <!-- Results Table -->
-  <table class="result-table">
+  <table class="result-table" *ngIf="tableData.length > 0">
     <thead>
       <tr>
         <th>Text Database</th>

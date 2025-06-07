@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';  // สำหรับ HttpClient
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -15,7 +17,6 @@ import { NavbarComponent } from './pages/navbar/navbar.component';
 import { CheckComponent } from './pages/check/check.component';
 import { CheckHistoryComponent } from './pages/check-history/check-history.component';
 import { HistoryDetailsComponent } from './pages/history-details/history-details.component';
-
 
 @NgModule({
   declarations: [
@@ -35,8 +36,9 @@ import { HistoryDetailsComponent } from './pages/history-details/history-details
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, // 
-    FormsModule
+    AppRoutingModule,
+    FormsModule,       // สำหรับ ngModel และฟอร์ม
+    HttpClientModule,  // สำหรับ HTTP requests
   ],
   providers: [
     provideClientHydration()
