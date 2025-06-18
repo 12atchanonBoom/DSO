@@ -1,20 +1,25 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'; // ✅ เพิ่ม SweetAlert2
+
+import Swal from 'sweetalert2';
+import { UserService } from '../../app/services/user.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  username = '';
-  password = '';
-  error = '';
-  isLoading = false;        // ✅ ควบคุมสถานะปุ่ม
-  showPassword = false;     // ✅ Toggle password visibility
+  username: string = '';
+  password: string = '';
+  error: string = '';
+  isLoading: boolean = false;
+  showPassword: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -24,38 +29,36 @@ export class LoginComponent {
     this.error = '';
     this.isLoading = true;
 
-    // จำลอง delay เหมือนโหลดข้อมูลจริง
-    setTimeout(() => {
-      if (this.username === 'a' && this.password === '1') {
-        Swal.fire({
-          title: 'Welcome, Admin!',
-          text: 'You have successfully logged in.',
-          icon: 'success',
-          confirmButtonColor: '#2196f3',
-          timer: 1500,
-          showConfirmButton: false
-        });
-        this.router.navigate(['/dashboard']);
-      } else if (this.username === 'u' && this.password === '1') {
+    this.userService.login(this.username, this.password).subscribe({
+      next: (res) => {
+        const role = res?.user?.role;
         Swal.fire({
           title: 'Welcome!',
-          text: 'User login success!',
+          text: `Login successful as ${role}`,
           icon: 'success',
-          confirmButtonColor: '#00bcd4',
           timer: 1500,
           showConfirmButton: false
         });
-        this.router.navigate(['/home']);
-      } else {
+
+        // ✅ route ไปตาม role
+        if (role === 'admin') {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/home']);
+        }
+
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Login error', err);
         Swal.fire({
           title: 'Login Failed',
           text: 'Invalid username or password.',
           icon: 'error',
           confirmButtonText: 'Try Again'
         });
+        this.isLoading = false;
       }
-
-      this.isLoading = false;
-    }, 700);
+    });
   }
 }

@@ -1,16 +1,49 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+import sys
+import os
+import traceback  # ✅ เพิ่ม traceback
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.middleware.cors import CORSMiddleware
+from scripts.check_runner import run_check_from_api
+import shutil
 
 app = FastAPI()
 
-class PDFInput(BaseModel):
-    pdfData: str  # ในอนาคตคุณจะรับ base64 PDF ผ่านตรงนี้
+# ✅ เพิ่ม CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # ใช้ "*" เฉพาะตอน dev
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/")
-def root():
-    return {"message": "Vispectra OCR API is running ✅"}
+@app.post("/run-check/")
+async def run_check(file: UploadFile = File(...), category: str = Form(...)):
+    try:
+        # ✅ ตรวจสอบและ log path
+        temp_dir = "temp_files"
+        os.makedirs(temp_dir, exist_ok=True)
+        temp_path = os.path.join(temp_dir, file.filename)
 
-@app.post("/check-ocr")
-def check_ocr(data: PDFInput):
-    # ตัวอย่าง mock response
-    return {"status": "success", "result": f"Received {len(data.pdfData)} characters."}
+        # ✅ บันทึกไฟล์ PDF
+        with open(temp_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        # ✅ รันเช็ค
+        result = run_check_from_api(temp_path, category)
+        return {
+            "status": "checked",
+            "category": category,
+            "results": result
+        }
+
+    except Exception as e:
+        traceback.print_exc()  # ✅ log error to console
+        return {
+            "status": "error",
+            "message": str(e),
+            "traceback": traceback.format_exc()
+        }

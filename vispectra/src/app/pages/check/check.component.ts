@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { VispectraService } from '../../app/services/vispectra.service';
 
 interface CheckRow {
   textDatabase: string;
+  bestMatch?: string;
+  pageNo?: number;
   statusText1: string;
   statusText2: string;
   textCondition: string;
@@ -17,6 +20,7 @@ interface CheckRow {
 })
 export class CheckComponent {
   selectedFileName: string = '';
+  selectedFile!: File;
   pdfSrc: SafeResourceUrl | null = null;
 
   dropdown1 = '3+';
@@ -25,18 +29,12 @@ export class CheckComponent {
   dropdown4 = 'SPW';
   dropdown5 = 'None';
 
-  tableData: CheckRow[] = [
-    {
-      textDatabase: 'Sample',
-      statusText1: 'OK',
-      statusText2: 'OK',
-      textCondition: 'Pass',
-      verify: 'Yes',
-      textVerify: 'Passed'
-    }
-  ];
+  tableData: CheckRow[] = [];
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private vispectraService: VispectraService
+  ) {}
 
   triggerFileInput() {
     const el = document.getElementById('inputFile') as HTMLElement | null;
@@ -46,6 +44,7 @@ export class CheckComponent {
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
+      this.selectedFile = file;
       this.selectedFileName = file.name;
       if (file.type === 'application/pdf') {
         const reader = new FileReader();
@@ -67,9 +66,28 @@ export class CheckComponent {
   }
 
   onRun() {
-    // Logic สำหรับ RUN
+    if (!this.selectedFile || !this.dropdown2) return;
+
+    this.vispectraService.runTextCheck(this.selectedFile, this.dropdown2).subscribe({
+      next: (res) => {
+        this.tableData = res.results.map((r: any) => ({
+          textDatabase: r.target_text,
+          bestMatch: r.best_match,
+          pageNo: r.page_no,
+          statusText1: r.is_found ? '✔️ Found' : '❌ Not Found',
+          statusText2: r.case_ok ? 'Case OK' : 'Case Error',
+          textCondition: r.char_check_ok !== null ? (r.char_check_ok ? '✓ Size OK' : '✗ Too Small') : '-',
+          verify: r.underline_ok ? '✓ Underline' : '-',
+          textVerify: r.bold_ok ? '✓ Bold' : '-'
+        }));
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
+
   onExportExcel() {
-    // Logic สำหรับ Export Excel
+    // [optional future feature]
   }
 }
