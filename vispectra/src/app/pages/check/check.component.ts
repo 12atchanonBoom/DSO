@@ -6,7 +6,9 @@ interface CheckRow {
   textDatabase: string;
   bestMatch?: string;
   pageNo?: number;
+  minSizeMm?: number;
   statusText1: string;
+  editableStatus: string;
   statusText2: string;
   textCondition: string;
   verify: string;
@@ -24,12 +26,18 @@ export class CheckComponent {
   pdfSrc: SafeResourceUrl | null = null;
 
   dropdown1 = '3+';
-  dropdown2 = 'UU_DOM';
+  dropdown2 = '21A';
   dropdown3 = '>278.75';
   dropdown4 = 'SPW';
   dropdown5 = 'None';
 
   tableData: CheckRow[] = [];
+
+  // ✅ Toggle Feature Flags
+  enableCase = false;
+  enableSize = false;
+  enableUnderline = false;
+  enableBold = false;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -68,23 +76,29 @@ export class CheckComponent {
   onRun() {
     if (!this.selectedFile || !this.dropdown2) return;
 
-    this.vispectraService.runTextCheck(this.selectedFile, this.dropdown2).subscribe({
-      next: (res) => {
-        this.tableData = res.results.map((r: any) => ({
-          textDatabase: r.target_text,
-          bestMatch: r.best_match,
-          pageNo: r.page_no,
-          statusText1: r.is_found ? '✔️ Found' : '❌ Not Found',
-          statusText2: r.case_ok ? 'Case OK' : 'Case Error',
-          textCondition: r.char_check_ok !== null ? (r.char_check_ok ? '✓ Size OK' : '✗ Too Small') : '-',
-          verify: r.underline_ok ? '✓ Underline' : '-',
-          textVerify: r.bold_ok ? '✓ Bold' : '-'
-        }));
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    });
+    this.vispectraService
+      .runTextCheck(this.selectedFile, this.dropdown2, this.dropdown3)
+      .subscribe({
+        next: (res) => {
+          this.tableData = res.results.map((r: any) => ({
+            textDatabase: r.target_text,
+            bestMatch: r.best_match,
+            pageNo: r.page_no,
+            minSizeMm: r.min_size_mm ?? null,
+            statusText1: r.is_found ? '✅ Found' : '❌ Not Found',
+            editableStatus: r.is_found ? '✅ Found' : '❌ Not Found',
+            statusText2: this.enableCase ? (r.case_ok ? 'Case OK' : 'Case Error') : '-',
+            textCondition: this.enableSize
+              ? (r.char_check_ok !== null ? (r.char_check_ok ? '✓ Size OK' : '✗ Too Small') : '-')
+              : '-',
+            verify: this.enableUnderline ? (r.underline_ok ? '✓ Underline' : '-') : '-',
+            textVerify: this.enableBold ? (r.bold_ok ? '✓ Bold' : '-') : '-'
+          }));
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
   }
 
   onExportExcel() {

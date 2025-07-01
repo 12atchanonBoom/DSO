@@ -66,6 +66,9 @@ def run_pdf_ocr_check(pdf_path, target_texts):
                     best_score = score
                     best_match = segment
 
+            # ✅ ถ้าไม่ตรงกันเลยให้ขึ้น "-"
+            best_match_display = best_match if normalize_text(best_match) == text_norm else "-"
+
             case_ok = is_all_caps(best_match) if t.get("all_caps") else True
 
             rects = page.search_for(text)
@@ -90,7 +93,7 @@ def run_pdf_ocr_check(pdf_path, target_texts):
             results.append({
                 "text_id": text_id,
                 "target_text": text,
-                "best_match": best_match,
+                "best_match": best_match_display,
                 "page_no": page_num,
                 "is_found": int(found),
                 "found_status": "✅ Found" if found else "❌ Not Found",
@@ -98,8 +101,10 @@ def run_pdf_ocr_check(pdf_path, target_texts):
                 "bold_ok": bool(bold_ok) if bold_ok is not None else None,
                 "underline_ok": bool(underline_ok) if underline_ok is not None else None,
                 "char_check_ok": bool(char_check_ok) if char_check_ok is not None else None,
+                "min_size_mm": t.get("min_size_mm"),
                 "x": x,
-                "y": y
+                "y": y,
+                "size_group_id": t.get("size_group_id")
             })
 
     return results

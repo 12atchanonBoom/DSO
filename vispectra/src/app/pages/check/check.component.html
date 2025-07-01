@@ -14,29 +14,36 @@
   </div>
 
   <div class="dropdowns-row">
-  <select [(ngModel)]="dropdown1" aria-label="Select age group">
-    <option value="3+">3+</option>
-    <option value="14+">14+</option>
-  </select>
+    <select [(ngModel)]="dropdown1" aria-label="Select age group">
+      <option value="3+">3+</option>
+      <option value="14+">14+</option>
+    </select>
 
-  <select [(ngModel)]="dropdown2" aria-label="Select category">
-    <option *ngFor="let v of ['UU_DOM','2LB','2XV','4LB','19L','19A','21A']" [value]="v">{{v}}</option>
-  </select>
+    <select [(ngModel)]="dropdown2" aria-label="Select category">
+      <option *ngFor="let v of ['21A','4LB','12A','DOM','DC1','2LB','2XV','19A']" [value]="v">{{v}}</option>
+    </select>
 
-  <select [(ngModel)]="dropdown3" aria-label="Select numeric condition">
-    <option value=">278.75">&gt;278.75</option>
-    <option value="<278.75">&lt;278.75</option>
-  </select>
+    <select [(ngModel)]="dropdown3" aria-label="Select numeric condition">
+      <option value=">278.75">&gt;278.75</option>
+      <option value="<278.75">&lt;278.75</option>
+    </select>
 
-  <select [(ngModel)]="dropdown4" aria-label="Select SP group">
-    <option *ngFor="let v of ['SPW','SBW','SPG','None']" [value]="v">{{v}}</option>
-  </select>
+    <select [(ngModel)]="dropdown4" aria-label="Select SP group">
+      <option *ngFor="let v of ['SPW','SBW','SPG','None']" [value]="v">{{v}}</option>
+    </select>
 
-  <select [(ngModel)]="dropdown5" aria-label="Select special condition">
-    <option *ngFor="let v of ['None','GID','Color Shifter/reveal','Color reveal','Color Shifter']" [value]="v">{{v}}</option>
-  </select>
-</div>
+    <select [(ngModel)]="dropdown5" aria-label="Select special condition">
+      <option *ngFor="let v of ['None','GID','Color Shifter/reveal','Color reveal','Color Shifter']" [value]="v">{{v}}</option>
+    </select>
+  </div>
 
+  <!-- ✅ Toggle Feature Flags -->
+  <div class="feature-toggle-row">
+    <label><input type="checkbox" [(ngModel)]="enableCase"> Case</label>
+    <label><input type="checkbox" [(ngModel)]="enableSize"> Size</label>
+    <label><input type="checkbox" [(ngModel)]="enableUnderline"> Underline</label>
+    <label><input type="checkbox" [(ngModel)]="enableBold"> Bold</label>
+  </div>
 
   <!-- PDF Preview -->
   <div class="result-box">
@@ -50,29 +57,38 @@
 
   <!-- Result Table -->
   <table class="result-table">
-    <thead>
-      <tr>
-        <th>Text Database</th>
-        <th>Best Match</th>
-        <th>Page</th>
-        <th>Status</th>
-        <th>Case</th>
-        <th>Size</th>
-        <th>Underline</th>
-        <th>Bold</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of tableData">
-        <td>{{ row.textDatabase }}</td>
-        <td>{{ row.bestMatch || '-' }}</td>
-        <td>{{ row.pageNo || '-' }}</td>
-        <td>{{ row.statusText1 }}</td>
-        <td>{{ row.statusText2 }}</td>
-        <td>{{ row.textCondition }}</td>
-        <td>{{ row.verify }}</td>
-        <td>{{ row.textVerify }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Result Table -->
+<thead>
+    <tr>
+      <th>Text Database</th>
+      <th>Best Match</th>
+      <th>Page</th>
+      <th>Status</th>
+      <th>Case</th>
+      <th>Min Size (mm)</th>
+      <th>Size</th>
+      <th>Underline</th>
+      <th>Bold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of tableData">
+      <td>{{ row.textDatabase }}</td>
+      <td>{{ row.bestMatch || '-' }}</td>
+      <td>{{ row.pageNo || '-' }}</td>
+      <td>
+        <select [(ngModel)]="row.editableStatus" aria-label="Edit status for text match result">
+          <option>✅ Found</option>
+          <option>❌ Not Found</option>
+        </select>
+      </td>
+      <td>{{ row.statusText2 }}</td>
+      <td>{{ row.minSizeMm ?? '-' }}</td>
+      <td>{{ row.textCondition }}</td>
+      <td>{{ row.verify }}</td>
+      <td>{{ row.textVerify }}</td>
+    </tr>
+  </tbody>
+</table>
+
 </div>

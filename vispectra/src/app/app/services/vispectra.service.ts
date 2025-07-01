@@ -11,10 +11,12 @@ export class VispectraService {
 
   constructor(private http: HttpClient) {}
 
-  runTextCheck(file: File, category: string): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('category', category);
-    return this.http.post(this.apiUrl, formData);
-  }
+  runTextCheck(file: File, category: string, sizeFilter: string): Observable<any> {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('category', category);
+  formData.append('size_filter', sizeFilter); // ✅ เพิ่ม size filter ส่งไป backend
+  return this.http.post(this.apiUrl, formData);
+}
+
 }
