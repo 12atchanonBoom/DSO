@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { VispectraService } from '../../app/services/vispectra.service';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 interface CheckRow {
   textDatabase: string;
@@ -27,13 +29,12 @@ export class CheckComponent {
 
   dropdown1 = '3+';
   dropdown2 = '21A';
-  dropdown3 = '>278.75';
+  dropdown3: number = 1; // ✅ ใช้ id: 1 = ≥278.75, 2 = <278.75
   dropdown4 = 'SPW';
   dropdown5 = 'None';
 
   tableData: CheckRow[] = [];
 
-  // ✅ Toggle Feature Flags
   enableCase = false;
   enableSize = false;
   enableUnderline = false;
@@ -101,7 +102,38 @@ export class CheckComponent {
       });
   }
 
-  onExportExcel() {
-    // [optional future feature]
+  onExportExcel(): void {
+    if (!this.tableData || this.tableData.length === 0) {
+      alert('ไม่มีข้อมูลในตารางให้ export ค่ะ');
+      return;
+    }
+
+    const exportData = this.tableData.map(row => ({
+      'Text Database': row.textDatabase,
+      'Best Match': row.bestMatch || '-',
+      'Page': row.pageNo || '-',
+      'Status': row.editableStatus,
+      'Case': row.statusText2,
+      'Min Size (mm)': row.minSizeMm ?? '-',
+      'Size': row.textCondition,
+      'Underline': row.verify,
+      'Bold': row.textVerify,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = { Sheets: { 'Check Result': worksheet }, SheetNames: ['Check Result'] };
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    const blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const fileName = `check-result-${yyyy}-${mm}-${dd}.xlsx`;
+
+    FileSaver.saveAs(blob, fileName);
   }
 }

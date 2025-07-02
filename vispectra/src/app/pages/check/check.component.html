@@ -23,9 +23,10 @@
       <option *ngFor="let v of ['21A','4LB','12A','DOM','DC1','2LB','2XV','19A']" [value]="v">{{v}}</option>
     </select>
 
+   
     <select [(ngModel)]="dropdown3" aria-label="Select numeric condition">
-      <option value=">278.75">&gt;278.75</option>
-      <option value="<278.75">&lt;278.75</option>
+      <option [value]="1">≥278.75</option>
+      <option [value]="2">&lt;278.75</option>
     </select>
 
     <select [(ngModel)]="dropdown4" aria-label="Select SP group">
@@ -57,38 +58,36 @@
 
   <!-- Result Table -->
   <table class="result-table">
-  <!-- Result Table -->
-<thead>
-    <tr>
-      <th>Text Database</th>
-      <th>Best Match</th>
-      <th>Page</th>
-      <th>Status</th>
-      <th>Case</th>
-      <th>Min Size (mm)</th>
-      <th>Size</th>
-      <th>Underline</th>
-      <th>Bold</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of tableData">
-      <td>{{ row.textDatabase }}</td>
-      <td>{{ row.bestMatch || '-' }}</td>
-      <td>{{ row.pageNo || '-' }}</td>
-      <td>
-        <select [(ngModel)]="row.editableStatus" aria-label="Edit status for text match result">
-          <option>✅ Found</option>
-          <option>❌ Not Found</option>
-        </select>
-      </td>
-      <td>{{ row.statusText2 }}</td>
-      <td>{{ row.minSizeMm ?? '-' }}</td>
-      <td>{{ row.textCondition }}</td>
-      <td>{{ row.verify }}</td>
-      <td>{{ row.textVerify }}</td>
-    </tr>
-  </tbody>
-</table>
-
+    <thead>
+      <tr>
+        <th>Text Database</th>
+        <th>Best Match</th>
+        <th>Page</th>
+        <th>Status</th>
+        <th>Case</th>
+        <th>Min Size (mm)</th>
+        <th>Size</th>
+        <th>Underline</th>
+        <th>Bold</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of tableData">
+        <td>{{ row.textDatabase }}</td>
+        <td>{{ row.bestMatch || '-' }}</td>
+        <td>{{ row.pageNo || '-' }}</td>
+        <td>
+          <select [(ngModel)]="row.editableStatus" aria-label="Edit status for text match result">
+            <option>✅ Found</option>
+            <option>❌ Not Found</option>
+          </select>
+        </td>
+        <td>{{ row.statusText2 }}</td>
+        <td>{{ row.minSizeMm ?? '-' }}</td>
+        <td>{{ row.textCondition }}</td>
+        <td>{{ row.verify }}</td>
+        <td>{{ row.textVerify }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
